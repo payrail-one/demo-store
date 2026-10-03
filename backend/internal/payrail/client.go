@@ -16,7 +16,8 @@ import (
 
 const maxResponseBytes = 1 << 20
 
-var checkoutID = regexp.MustCompile(`^[0-9a-f]{64}$`)
+var checkoutIDPattern = regexp.MustCompile(`^[0-9a-f]{64}$`)
+var approvalCode = regexp.MustCompile(`^[0-9]{6}$`)
 
 var ErrInvariant = errors.New("payrail checkout invariant failed")
 
@@ -102,7 +103,7 @@ func (client *Client) CreateCheckout(ctx context.Context, merchant, amount, refe
 }
 
 func (client *Client) Checkout(ctx context.Context, id, merchant string) (Checkout, error) {
-	if !checkoutID.MatchString(id) {
+	if !ValidCheckoutID(id) {
 		return Checkout{}, fmt.Errorf("%w: malformed checkout identifier", ErrInvariant)
 	}
 	var checkout Checkout
@@ -115,8 +116,38 @@ func (client *Client) Checkout(ctx context.Context, id, merchant string) (Checko
 	return checkout, nil
 }
 
+func (client *Client) ClaimApprovalCode(ctx context.Context, id, code, merchantToken string) error {
+	if !ValidCheckoutID(id) || !approvalCode.MatchString(code) {
+		return fmt.Errorf("%w: malformed checkout or approval code", ErrInvariant)
+	}
+	if len(merchantToken) < 32 || len(merchantToken) > 256 {
+		return fmt.Errorf("%w: invalid merchant credential", ErrInvariant)
+	}
+	payload := struct {
+		Code string `json:"code"`
+	}{Code: code}
+	var result struct {
+		Status     string `json:"status"`
+		CheckoutID string `json:"checkoutId"`
+	}
+	if err := client.requestAuthorized(
+		ctx,
+		http.MethodPost,
+		"/api/checkouts/"+id+"/approval-code",
+		payload,
+		&result,
+		merchantToken,
+	); err != nil {
+		return err
+	}
+	if result.Status != "claimed" || result.CheckoutID != id {
+		return fmt.Errorf("%w: invalid approval-code claim response", ErrInvariant)
+	}
+	return nil
+}
+
 func validateCheckout(checkout Checkout, merchant, amount string) error {
-	if !checkoutID.MatchString(checkout.ID) || checkout.MerchantAddress != merchant || checkout.Amount != amount {
+	if !ValidCheckoutID(checkout.ID) || checkout.MerchantAddress != merchant || checkout.Amount != amount {
 		return fmt.Errorf("%w: recipient, amount or identifier changed", ErrInvariant)
 	}
 	if checkout.PaymentPath != "/pay/"+checkout.ID {
@@ -128,7 +159,22 @@ func validateCheckout(checkout Checkout, merchant, amount string) error {
 	return nil
 }
 
+func ValidCheckoutID(value string) bool {
+	return checkoutIDPattern.MatchString(value)
+}
+
 func (client *Client) request(ctx context.Context, method, path string, payload, output any) error {
+	return client.requestAuthorized(ctx, method, path, payload, output, "")
+}
+
+func (client *Client) requestAuthorized(
+	ctx context.Context,
+	method string,
+	path string,
+	payload any,
+	output any,
+	bearerToken string,
+) error {
 	target := *client.baseURL
 	target.Path = strings.TrimRight(target.Path, "/") + path
 	var body io.Reader
@@ -144,6 +190,9 @@ func (client *Client) request(ctx context.Context, method, path string, payload,
 		return fmt.Errorf("create Payrail request: %w", err)
 	}
 	request.Header.Set("accept", "application/json")
+	if bearerToken != "" {
+		request.Header.Set("authorization", "Bearer "+bearerToken)
+	}
 	if payload != nil {
 		request.Header.Set("content-type", "application/json")
 	}

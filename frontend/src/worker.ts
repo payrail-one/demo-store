@@ -63,6 +63,12 @@ function backendTarget(
     upstream.pathname = '/payrail/store/orders';
     return { url: upstream, methods: ['POST'] };
   }
+  if (
+    /^\/store\/orders\/[0-9a-f]{64}\/approval-code$/.test(incoming.pathname)
+  ) {
+    upstream.pathname = `/payrail${incoming.pathname}`;
+    return { url: upstream, methods: ['POST'] };
+  }
   if (/^\/api\/checkouts\/[0-9a-f]{64}$/.test(incoming.pathname)) {
     upstream.pathname = `/payrail${incoming.pathname}`;
     return { url: upstream, methods: ['GET', 'HEAD'] };

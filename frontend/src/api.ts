@@ -50,6 +50,20 @@ export class StoreApi {
   async order(id: string): Promise<StoreOrder> {
     return request<StoreOrder>(`/store/orders/${encodeURIComponent(id)}`);
   }
+
+  async claimApprovalCode(id: string, code: string): Promise<void> {
+    if (!/^[0-9]{6}$/.test(code)) {
+      throw new Error('Enter the six digits shown in your Payrail wallet.');
+    }
+    await request<{ readonly status: 'claimed' }>(
+      `/store/orders/${encodeURIComponent(id)}/approval-code`,
+      {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ code }),
+      },
+    );
+  }
 }
 
 async function request<Value>(

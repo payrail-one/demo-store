@@ -83,6 +83,75 @@
   background: #77efaa;
   box-shadow: 0 0 9px #77efaa;
 }
+.approval-code-form {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border: 1px solid #a4ffca2e;
+  background: #07110d;
+}
+.approval-code-form label,
+.approval-code-form small {
+  display: block;
+}
+.approval-code-form label {
+  color: #dce9e1;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+.approval-code-form small {
+  margin-top: 0.28rem;
+  color: #758a7e;
+  font-size: 0.65rem;
+}
+.approval-code-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.55rem;
+}
+.approval-code-entry input {
+  min-width: 0;
+  height: 48px;
+  border: 1px solid #a4ffca4a;
+  border-radius: 0;
+  padding: 0 0.85rem;
+  color: #f0fff5;
+  background: #0c1c15;
+  font:
+    700 1.15rem ui-monospace,
+    monospace;
+  letter-spacing: 0.24em;
+}
+.approval-code-entry input:focus-visible {
+  outline: 2px solid #a4ffca;
+  outline-offset: 2px;
+}
+.approval-code-entry button {
+  min-width: 102px;
+  border: 0;
+  padding: 0 1rem;
+  color: #07110d;
+  background: #a4ffca;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+.approval-code-entry :disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+.approval-code-form > p {
+  margin: 0;
+  color: #8fa397;
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+.approval-code-form > p[data-state='claimed'] {
+  color: #7ce9ad;
+}
+.approval-code-form > p[data-state='failed'] {
+  color: #ff9d9d;
+}
 .primary-action {
   min-height: 52px;
   display: grid;
@@ -196,5 +265,11 @@
   }
   .success-mark {
     width: min(250px, 62vw);
+  }
+  .approval-code-entry {
+    grid-template-columns: 1fr;
+  }
+  .approval-code-entry button {
+    min-height: 46px;
   }
 }

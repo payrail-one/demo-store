@@ -15,6 +15,9 @@ export function paymentModal(
   order: StoreOrder,
   checkout: Checkout,
   stage: PaymentStage,
+  codeStage: 'idle' | 'claiming' | 'claimed' | 'failed',
+  codeMessage: string,
+  claimApprovalCode: (event: Event) => Promise<void>,
   close: () => void,
   reset: () => void,
 ) {
@@ -76,6 +79,9 @@ export function paymentModal(
               </div>`
             : null}
         </dl>
+        ${!finalized
+          ? approvalCodeForm(codeStage, codeMessage, claimApprovalCode)
+          : null}
         ${finalized
           ? html`<button
               class="primary-action"
@@ -110,6 +116,50 @@ export function paymentModal(
       </div>
     </section>
   </div>`;
+}
+
+function approvalCodeForm(
+  stage: 'idle' | 'claiming' | 'claimed' | 'failed',
+  message: string,
+  submit: (event: Event) => Promise<void>,
+) {
+  return html`<form
+    class="approval-code-form"
+    data-testid="approval-code-form"
+    ${on('submit', (event) => void submit(event))}
+  >
+    <div>
+      <label for="approval-code">Pay with six-digit code</label>
+      <small>Generate it inside your unlocked Payrail wallet.</small>
+    </div>
+    <div class="approval-code-entry">
+      <input
+        id="approval-code"
+        name="approval-code"
+        data-testid="approval-code-input"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        pattern="[0-9]{6}"
+        minlength="6"
+        maxlength="6"
+        placeholder="000000"
+        required
+        ${attr('disabled', stage === 'claiming' || stage === 'claimed')}
+      />
+      <button
+        data-testid="submit-approval-code"
+        type="submit"
+        ${attr('disabled', stage === 'claiming' || stage === 'claimed')}
+      >
+        ${stage === 'claiming'
+          ? 'Linking…'
+          : stage === 'claimed'
+            ? 'Linked ✓'
+            : 'Continue'}
+      </button>
+    </div>
+    ${message ? html`<p ${attr('data-state', stage)}>${message}</p>` : null}
+  </form>`;
 }
 
 function successMark() {

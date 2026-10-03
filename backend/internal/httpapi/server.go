@@ -21,12 +21,14 @@ const maxRequestBytes = 16 << 10
 type Config struct {
 	Payrail         *payrail.Client
 	MerchantAddress string
+	MerchantToken   string
 	WalletOrigin    string
 }
 
 type Server struct {
 	payrail         *payrail.Client
 	merchantAddress string
+	merchantToken   string
 	walletOrigin    *url.URL
 }
 
@@ -44,11 +46,17 @@ func New(config Config) (*Server, error) {
 	if strings.TrimSpace(config.MerchantAddress) == "" {
 		return nil, errors.New("merchant address is required")
 	}
+	if len(config.MerchantToken) < 32 || len(config.MerchantToken) > 256 {
+		return nil, errors.New("Payrail Code merchant token must contain 32-256 characters")
+	}
 	walletOrigin, err := url.Parse(config.WalletOrigin)
 	if err != nil || walletOrigin.Scheme != "https" || walletOrigin.Host == "" {
 		return nil, errors.New("wallet origin must be an absolute HTTPS URL")
 	}
-	return &Server{payrail: config.Payrail, merchantAddress: config.MerchantAddress, walletOrigin: walletOrigin}, nil
+	return &Server{
+		payrail: config.Payrail, merchantAddress: config.MerchantAddress,
+		merchantToken: config.MerchantToken, walletOrigin: walletOrigin,
+	}, nil
 }
 
 func (server *Server) Handler() http.Handler {
@@ -130,10 +138,15 @@ func (server *Server) orders(writer http.ResponseWriter, request *http.Request) 
 }
 
 func (server *Server) order(writer http.ResponseWriter, request *http.Request) {
+	path := strings.TrimPrefix(request.URL.Path, "/orders/")
+	if strings.HasSuffix(path, "/approval-code") {
+		server.claimApprovalCode(writer, request, strings.TrimSuffix(path, "/approval-code"))
+		return
+	}
 	if !requireMethod(writer, request, http.MethodGet) {
 		return
 	}
-	id := strings.TrimPrefix(request.URL.Path, "/orders/")
+	id := path
 	if id == "" || strings.Contains(id, "/") {
 		writeError(writer, http.StatusNotFound, "Order was not found")
 		return
@@ -144,6 +157,33 @@ func (server *Server) order(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	writeJSON(writer, http.StatusOK, server.orderView(checkout, nil, checkout.Amount))
+}
+
+func (server *Server) claimApprovalCode(writer http.ResponseWriter, request *http.Request, id string) {
+	if !requireMethod(writer, request, http.MethodPost) {
+		return
+	}
+	if !payrail.ValidCheckoutID(id) {
+		writeError(writer, http.StatusNotFound, "Order was not found")
+		return
+	}
+	request.Body = http.MaxBytesReader(writer, request.Body, maxRequestBytes)
+	var input struct {
+		Code string `json:"code"`
+	}
+	decoder := json.NewDecoder(request.Body)
+	decoder.DisallowUnknownFields()
+	if err := decoder.Decode(&input); err != nil {
+		writeError(writer, http.StatusBadRequest, "Invalid Payrail Code payload")
+		return
+	}
+	if err := server.payrail.ClaimApprovalCode(
+		request.Context(), id, input.Code, server.merchantToken,
+	); err != nil {
+		writeError(writer, http.StatusBadRequest, "Payrail Code could not be linked")
+		return
+	}
+	writeJSON(writer, http.StatusOK, map[string]string{"status": "claimed", "checkoutId": id})
 }
 
 func (server *Server) orderView(checkout payrail.Checkout, lines []catalog.Line, total string) orderView {

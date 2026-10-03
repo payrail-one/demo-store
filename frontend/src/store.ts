@@ -15,6 +15,8 @@ export function createStore() {
   const order = signal<StoreOrder | null>(null);
   const checkout = signal<Checkout | null>(null);
   const stage = signal<PaymentStage>('cart');
+  const codeStage = signal<'idle' | 'claiming' | 'claimed' | 'failed'>('idle');
+  const codeMessage = signal('');
   const message = signal('Connecting to the Payrail network…');
   let polling: AbortController | null = null;
 
@@ -103,12 +105,33 @@ export function createStore() {
     order.value = null;
     checkout.value = null;
     stage.value = 'cart';
+    codeStage.value = 'idle';
+    codeMessage.value = '';
     restoreNetworkMessage(catalog.value, message);
   };
 
   const resetOrder = () => {
     closeCheckout();
     quantities.value = new Map();
+  };
+
+  const claimApprovalCode = async (event: Event) => {
+    event.preventDefault();
+    if (!order.value || codeStage.value === 'claiming') return;
+    const code = new FormData(event.currentTarget as HTMLFormElement).get(
+      'approval-code',
+    );
+    codeStage.value = 'claiming';
+    codeMessage.value = 'Linking securely…';
+    try {
+      if (typeof code !== 'string') throw new Error('Enter a Payrail Code.');
+      await api.claimApprovalCode(order.value.checkout.id, code);
+      codeStage.value = 'claimed';
+      codeMessage.value = 'Linked. Confirm the exact payment in your wallet.';
+    } catch (error) {
+      codeStage.value = 'failed';
+      codeMessage.value = errorMessage(error);
+    }
   };
 
   window.addEventListener('keydown', (event) => {
@@ -162,6 +185,9 @@ export function createStore() {
             order.value,
             checkout.value,
             stage.value,
+            codeStage.value,
+            codeMessage.value,
+            claimApprovalCode,
             closeCheckout,
             resetOrder,
           )

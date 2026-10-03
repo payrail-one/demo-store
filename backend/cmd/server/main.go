@@ -22,6 +22,7 @@ func main() {
 	api, err := httpapi.New(httpapi.Config{
 		Payrail:         client,
 		MerchantAddress: os.Getenv("PAYRAIL_STORE_MERCHANT_ADDRESS"),
+		MerchantToken:   os.Getenv("PAYRAIL_CODE_MERCHANT_TOKEN"),
 		WalletOrigin:    environment("PAYRAIL_WALLET_ORIGIN", "https://wallet.payrail.one"),
 	})
 	if err != nil {

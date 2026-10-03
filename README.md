@@ -12,6 +12,8 @@ Live demo: [store.payrail.one](https://store.payrail.one) · Merchant portal: [m
 - the browser sends only product identifiers and bounded quantities;
 - the backend creates the Payrail checkout and verifies the returned recipient, amount, identifier, path, and state;
 - `@payrail-one/sdk` independently validates the checkout in the browser and waits for finality;
+- a customer can generate a short-lived six-digit Payrail Code in the unlocked wallet and enter it at checkout; the code only links the checkout and never authorizes payment;
+- the merchant credential remains in the Go backend while the wallet performs a separate review and signature step;
 - Payrail Code renders the payment request as a branded circular token and keeps a standard high-error-correction QR available as a camera fallback;
 - original campaign and catalog photography is optimized locally as WebP, with generation provenance documented beside the assets;
 - wallet keys and signed operations never enter the store frontend or backend.
@@ -27,6 +29,7 @@ npm ci
 cd backend
 PAYRAIL_GATEWAY_URL=https://r1.verita.tech/payrail \
 PAYRAIL_STORE_MERCHANT_ADDRESS=paydev1qzn5sxzyfr7zs37hlh2vk8zmc76qsvhk42z9duygfyhm9zz8kaqpqut57pl \
+PAYRAIL_CODE_MERCHANT_TOKEN=replace-with-a-random-server-only-secret \
 go run ./cmd/server
 ```
 
@@ -66,11 +69,13 @@ const receipt = await payrail.waitForFinalization(payment.checkout.id);
 
 Create orders on your own backend. Do not accept a price, total, merchant address, or finality assertion from the browser.
 
+The optional `@payrail-one/sdk/sms` entry point provides wallet and merchant clients for Payrail Code plus helpers for composing an SMS link. SMS is delivery only: possession of a message or six-digit code cannot sign or approve a transaction.
+
 ## Deployment model
 
 `store.payrail.one` is a static Cloudflare Worker frontend. It exposes only the narrow store and checkout-status routes declared in `frontend/src/worker.ts`. The Go service runs on a designated Payrail server and reaches the gateway over its private network. The production service is read-only, unprivileged, capability-free, and bound behind the edge proxy.
 
-Copy `.env.example` to `.env` for the local container configuration. Never commit private keys or credentials; the configured demo recipient is a public address only.
+Copy `.env.example` to `.env` for the local container configuration, then replace the sample merchant token with at least 32 random bytes shared only with the gateway. Never expose it to browser code or commit it. The configured demo recipient is a public address only.
 
 ## License
 
