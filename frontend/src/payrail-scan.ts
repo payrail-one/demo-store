@@ -14,7 +14,6 @@ export function payrailScan(value: string) {
           if (element) paintRadialCode(element, value);
         })}
       ></canvas>
-      <span class="radial-code-label" aria-hidden="true">PAYRAIL</span>
     </div>
     <details class="qr-fallback">
       <summary>Scan with a standard camera</summary>

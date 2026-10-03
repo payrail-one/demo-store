@@ -146,18 +146,6 @@
   width: 100%;
   height: 100%;
 }
-.radial-code-label {
-  position: absolute;
-  right: 0;
-  bottom: 4.5%;
-  left: 0;
-  color: #f6fff8;
-  font:
-    700 0.72rem ui-monospace,
-    monospace;
-  letter-spacing: 0.28em;
-  text-align: center;
-}
 .qr-fallback {
   width: 100%;
   color: #214532;
