@@ -14,7 +14,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@payrail-one/sdk": "https://github.com/payrail-one/sdk/archive/8a837328d3234505bf06e55ccd11cb3ccaca7fa5.tar.gz",
+    "@payrail-one/sdk": "https://github.com/payrail-one/sdk/archive/b02849b886b22a9f3285860076691b506a6a436d.tar.gz",
     "uqr": "0.1.3",
     "workstar": "0.2.2"
   },
