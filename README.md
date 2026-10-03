@@ -1,6 +1,6 @@
 # Payrail demo store
 
-A complete, public reference storefront for Payrail checkout. The repository keeps the [Workstar](https://github.com/wslab-ai/workstar) frontend and Go backend together so an integration can be inspected, run, and deployed as one unit.
+A complete, public reference storefront for Payrail checkout. Aurora Market includes an editorial homepage, eight-product catalog, category discovery, product quick views, a responsive cart drawer, and finalized payment receipts. The repository keeps the [Workstar](https://github.com/wslab-ai/workstar) frontend and Go backend together so an integration can be inspected, run, and deployed as one unit.
 
 Live demo: [store.payrail.one](https://store.payrail.one) · Merchant portal: [merchant.payrail.one](https://merchant.payrail.one) · SDK: [payrail-one/sdk](https://github.com/payrail-one/sdk)
 
@@ -13,6 +13,7 @@ Live demo: [store.payrail.one](https://store.payrail.one) · Merchant portal: [m
 - the backend creates the Payrail checkout and verifies the returned recipient, amount, identifier, path, and state;
 - `@payrail-one/sdk` independently validates the checkout in the browser and waits for finality;
 - Payrail Code renders the payment request as a branded circular token and keeps a standard high-error-correction QR available as a camera fallback;
+- original campaign and catalog photography is optimized locally as WebP, with generation provenance documented beside the assets;
 - wallet keys and signed operations never enter the store frontend or backend.
 
 The circular Payrail Code is a deterministic visual payment token for the Payrail experience. Until the Payrail wallet ships its dedicated radial decoder, customers should tap the payment link or expand the standard camera QR fallback. It is not an Apple App Clip code or an EMV-certified QR profile.

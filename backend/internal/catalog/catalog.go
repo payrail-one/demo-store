@@ -36,10 +36,14 @@ type Line struct {
 }
 
 var products = []Product{
-	{ID: "orbit-lamp", Name: "Orbit Lamp", Category: "Light", Description: "A quiet pool of light for late work and slow mornings.", PriceAtomic: "38500000", Tone: "cobalt", Edition: "01 / 04", price: 38_500_000},
-	{ID: "field-notebook", Name: "Field Notebook", Category: "Paper", Description: "Thread-bound pages with a lay-flat spine and tactile stock.", PriceAtomic: "12000000", Tone: "sand", Edition: "02 / 04", price: 12_000_000},
-	{ID: "arc-speaker", Name: "Arc Speaker", Category: "Sound", Description: "A compact room speaker tuned for warm, close listening.", PriceAtomic: "64000000", Tone: "graphite", Edition: "03 / 04", price: 64_000_000},
-	{ID: "mineral-cup", Name: "Mineral Cup", Category: "Table", Description: "Hand-finished stoneware with a soft mineral glaze.", PriceAtomic: "18500000", Tone: "clay", Edition: "04 / 04", price: 18_500_000},
+	{ID: "orbit-lamp", Name: "Orbit Lamp", Category: "Light", Description: "A quiet pool of light for late work and slow mornings.", PriceAtomic: "38500000", Tone: "ivory", Edition: "01 / 08", price: 38_500_000},
+	{ID: "field-notebook", Name: "Field Notebook", Category: "Paper", Description: "Thread-bound pages with a lay-flat spine and tactile stock.", PriceAtomic: "12000000", Tone: "sand", Edition: "02 / 08", price: 12_000_000},
+	{ID: "arc-speaker", Name: "Arc Speaker", Category: "Sound", Description: "A compact room speaker tuned for warm, close listening.", PriceAtomic: "64000000", Tone: "graphite", Edition: "03 / 08", price: 64_000_000},
+	{ID: "mineral-cup", Name: "Mineral Cup", Category: "Table", Description: "Hand-finished stoneware with a soft mineral glaze.", PriceAtomic: "18500000", Tone: "clay", Edition: "04 / 08", price: 18_500_000},
+	{ID: "pebble-vase", Name: "Pebble Vase", Category: "Objects", Description: "A softly asymmetric vessel shaped and finished by hand.", PriceAtomic: "28000000", Tone: "sage", Edition: "05 / 08", price: 28_000_000},
+	{ID: "linen-throw", Name: "Linen Throw", Category: "Textile", Description: "Heavy washed linen with a relaxed weave and hand-tied fringe.", PriceAtomic: "52000000", Tone: "olive", Edition: "06 / 08", price: 52_000_000},
+	{ID: "stone-tray", Name: "Stone Tray", Category: "Table", Description: "Honed natural stone for the small objects kept close.", PriceAtomic: "32000000", Tone: "chalk", Edition: "07 / 08", price: 32_000_000},
+	{ID: "cedar-incense", Name: "Cedar Incense Rest", Category: "Ritual", Description: "Dark cedar and aged brass, cut as one quiet architectural line.", PriceAtomic: "16500000", Tone: "umber", Edition: "08 / 08", price: 16_500_000},
 }
 
 func Products() []Product {

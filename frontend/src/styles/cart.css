@@ -1,0 +1,268 @@
+.drawer-layer {
+  position: fixed;
+  z-index: 15;
+  inset: 0;
+}
+.drawer-scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #10130f99;
+  backdrop-filter: blur(4px);
+}
+.cart-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(510px, 100%);
+  display: flex;
+  flex-direction: column;
+  color: #171a16;
+  background: #f6f3eb;
+  box-shadow: -25px 0 80px #0003;
+}
+.cart-drawer > header {
+  min-height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 1.6rem;
+  border-bottom: 1px solid #171a1620;
+}
+.cart-drawer h2 {
+  margin: 0;
+  font-family: 'Iowan Old Style', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+}
+.cart-drawer header .kicker {
+  margin-bottom: 0.25rem;
+}
+.cart-drawer header > button,
+.dialog-close {
+  border: 0;
+  border-bottom: 1px solid #171a16;
+  padding: 0.25rem 0;
+  background: transparent;
+  font-size: 0.65rem;
+}
+.cart-lines {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 1.6rem;
+}
+.cart-line {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 1rem;
+  padding: 1.35rem 0;
+  border-bottom: 1px solid #171a161a;
+}
+.cart-line > img {
+  width: 130px;
+  height: 155px;
+  object-fit: cover;
+}
+.cart-line-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.cart-line-copy small {
+  color: #737870;
+  font-size: 0.58rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.cart-line-copy h3 {
+  margin: 0.35rem 0 0.75rem;
+  font-family: 'Iowan Old Style', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+.cart-line-copy > strong {
+  font:
+    0.65rem ui-monospace,
+    monospace;
+}
+.line-quantity {
+  display: grid;
+  grid-template-columns: 32px 30px 32px;
+  align-items: center;
+  margin-top: auto;
+  border: 1px solid #171a1633;
+}
+.line-quantity button {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+}
+.line-quantity span {
+  text-align: center;
+  font-size: 0.68rem;
+}
+.cart-summary {
+  padding: 1.5rem 1.6rem 1.8rem;
+  border-top: 1px solid #171a1620;
+  background: #efebe1;
+}
+.cart-summary > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart-summary > div span {
+  font-size: 0.75rem;
+}
+.cart-summary > div strong {
+  font:
+    0.82rem ui-monospace,
+    monospace;
+}
+.cart-summary p {
+  margin: 0.6rem 0 1.2rem;
+  color: #737870;
+  font-size: 0.66rem;
+}
+.cart-summary > button,
+.empty-bag > button,
+.dialog-copy > button {
+  width: 100%;
+  min-height: 52px;
+  border: 0;
+  color: #f6f3eb;
+  background: #173d2b;
+  font-size: 0.72rem;
+  font-weight: 750;
+}
+.cart-summary > small {
+  display: block;
+  margin-top: 0.9rem;
+  color: #6c746c;
+  font-size: 0.6rem;
+  text-align: center;
+}
+.cart-summary > small span {
+  color: #28a863;
+}
+.empty-bag {
+  flex: 1;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+.empty-bag > span {
+  width: 70px;
+  height: 70px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #173d2b;
+  border-radius: 50%;
+  color: #173d2b;
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+}
+.empty-bag h3 {
+  margin: 1.3rem 0 0.5rem;
+  font-family: 'Iowan Old Style', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 400;
+}
+.empty-bag p {
+  max-width: 19rem;
+  color: #737870;
+  line-height: 1.6;
+}
+.empty-bag > button {
+  width: auto;
+  padding: 0 2rem;
+}
+.product-dialog {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: min(1040px, calc(100% - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  transform: translate(-50%, -50%);
+  color: #171a16;
+  background: #f6f3eb;
+  box-shadow: 0 40px 120px #0007;
+}
+.dialog-close {
+  position: absolute;
+  z-index: 2;
+  top: 1rem;
+  right: 1rem;
+}
+.dialog-image {
+  min-height: 640px;
+}
+.dialog-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dialog-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2.5rem, 6vw, 6rem);
+}
+.dialog-copy h2 {
+  margin-bottom: 0.8rem;
+  font-family: 'Iowan Old Style', Georgia, serif;
+  font-size: clamp(3rem, 5vw, 5rem);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: -0.05em;
+}
+.dialog-copy > strong {
+  font:
+    0.75rem ui-monospace,
+    monospace;
+}
+.dialog-copy > p:not(.kicker) {
+  margin: 2rem 0;
+  color: #656a63;
+  line-height: 1.7;
+}
+.dialog-copy dl {
+  margin: 2rem 0 0;
+}
+.dialog-copy dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #171a161c;
+}
+.dialog-copy dt,
+.dialog-copy dd {
+  font-size: 0.65rem;
+}
+.dialog-copy dt {
+  color: #747970;
+}
+.dialog-copy dd {
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .product-dialog {
+    grid-template-columns: 1fr;
+  }
+  .dialog-image {
+    min-height: 410px;
+  }
+  .dialog-copy {
+    padding: 2rem 1.4rem 2.5rem;
+  }
+}

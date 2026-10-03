@@ -1,0 +1,310 @@
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 2rem) 0.75rem;
+}
+.retail-product {
+  min-width: 0;
+}
+.product-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 0.82;
+  overflow: hidden;
+  display: block;
+  border: 0;
+  padding: 0;
+  background: #ded9cd;
+}
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 520ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.product-image:hover img {
+  transform: scale(1.025);
+}
+.product-badge {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  padding: 0.35rem 0.5rem;
+  color: #252922;
+  background: #f6f2e9db;
+  font:
+    0.53rem ui-monospace,
+    monospace;
+  letter-spacing: 0.08em;
+}
+.quick-view {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  left: 0.7rem;
+  min-height: 42px;
+  display: grid;
+  place-items: center;
+  color: #f5f2e9;
+  background: #172019e8;
+  font-size: 0.68rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+.product-image:hover .quick-view,
+.product-image:focus-visible .quick-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.retail-product-info {
+  padding: 0.95rem 0.2rem 0;
+}
+.retail-product-info > button {
+  width: 100%;
+  display: grid;
+  gap: 0.25rem;
+  border: 0;
+  padding: 0;
+  color: #171a16;
+  background: transparent;
+  text-align: left;
+}
+.retail-product-info > button span {
+  font-family: 'Iowan Old Style', Georgia, serif;
+  font-size: 1.18rem;
+}
+.retail-product-info small {
+  color: #777b75;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.retail-product-info > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.7rem;
+}
+.retail-product-info strong {
+  font:
+    0.68rem ui-monospace,
+    monospace;
+}
+.quick-add {
+  border: 0;
+  border-bottom: 1px solid #1d211d;
+  padding: 0.2rem 0;
+  color: #1d211d;
+  background: transparent;
+  font-size: 0.67rem;
+  font-weight: 700;
+}
+.product-loading {
+  min-height: 530px;
+  background: linear-gradient(100deg, #e1ddd2 25%, #ebe7de 45%, #e1ddd2 65%);
+  background-size: 300% 100%;
+  animation: shimmer 1.6s infinite;
+}
+@keyframes shimmer {
+  to {
+    background-position: -150% 0;
+  }
+}
+.editorial-story {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  color: #e9eee9;
+  background: #183c2b;
+}
+.editorial-image {
+  min-height: 720px;
+}
+.editorial-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.editorial-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(3rem, 7vw, 8rem);
+}
+.editorial-copy h2 {
+  margin-bottom: 2rem;
+  font-family: 'Iowan Old Style', Georgia, serif;
+  font-size: clamp(2.6rem, 5vw, 5.5rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+.editorial-copy > p:not(.kicker) {
+  max-width: 36rem;
+  color: #bac9bf;
+  line-height: 1.75;
+}
+.editorial-copy > a {
+  align-self: flex-start;
+  margin: 1.2rem 0 3rem;
+  border-bottom: 1px solid #dbe7de66;
+  padding-bottom: 0.3rem;
+  font-size: 0.72rem;
+  text-decoration: none;
+}
+.editorial-copy dl {
+  margin: 0;
+  border-top: 1px solid #ffffff2b;
+}
+.editorial-copy dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid #ffffff1e;
+}
+.editorial-copy dt,
+.editorial-copy dd {
+  font-size: 0.68rem;
+}
+.editorial-copy dt {
+  color: #92a89a;
+}
+.editorial-copy dd {
+  margin: 0;
+}
+.newsletter {
+  padding: clamp(5rem, 10vw, 10rem) 1rem;
+  text-align: center;
+}
+.newsletter h2 {
+  margin-bottom: 2.5rem;
+  font-family: 'Iowan Old Style', Georgia, serif;
+  font-size: clamp(2.6rem, 5.5vw, 5.8rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+.newsletter form {
+  width: min(570px, 100%);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin: 0 auto;
+  border-bottom: 1px solid #171a16;
+}
+.newsletter label span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.newsletter input {
+  width: 100%;
+  border: 0;
+  padding: 1rem 0;
+  outline: none;
+  color: #171a16;
+  background: transparent;
+}
+.newsletter button {
+  border: 0;
+  padding: 0 0 0 2rem;
+  color: #173d2b;
+  background: transparent;
+  font-size: 0.72rem;
+  font-weight: 750;
+}
+.retail-footer {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: 3rem;
+  padding: clamp(3rem, 6vw, 6rem) clamp(1rem, 3vw, 2.5rem) 2rem;
+  color: #e0e8e2;
+  background: #111713;
+}
+.retail-footer > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+.retail-footer p {
+  max-width: 20rem;
+  margin-top: 1rem;
+  color: #87988c;
+  line-height: 1.6;
+}
+.retail-footer strong {
+  margin-bottom: 0.5rem;
+  color: #8ba093;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.retail-footer a:not(.aurora-wordmark) {
+  color: #c9d3cc;
+  font-size: 0.72rem;
+  text-decoration: none;
+}
+.retail-footer > small {
+  grid-column: 1 / -1;
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid #ffffff1c;
+  color: #6e7e73;
+  font:
+    0.57rem ui-monospace,
+    monospace;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 980px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .editorial-story {
+    grid-template-columns: 1fr;
+  }
+  .editorial-image {
+    min-height: 620px;
+  }
+  .retail-footer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .retail-footer > div:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .product-grid {
+    gap: 1.7rem 0.45rem;
+  }
+  .product-image {
+    aspect-ratio: 0.78;
+  }
+  .quick-view {
+    display: none;
+  }
+  .retail-product-info > button span {
+    font-size: 1rem;
+  }
+  .retail-product-info > div {
+    align-items: start;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .editorial-image {
+    min-height: 440px;
+  }
+  .retail-footer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .retail-footer > div:last-of-type {
+    grid-column: 1 / -1;
+  }
+}
