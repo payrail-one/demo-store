@@ -12,10 +12,10 @@ Live demo: [store.payrail.one](https://store.payrail.one) · Merchant portal: [m
 - the browser sends only product identifiers and bounded quantities;
 - the backend creates the Payrail checkout and verifies the returned recipient, amount, identifier, path, and state;
 - `@payrail-one/sdk` independently validates the checkout in the browser and waits for finality;
-- Payrail Scan combines a standard high-error-correction QR with a decorative circular halo;
+- Payrail Code renders the payment request as a branded circular token and keeps a standard high-error-correction QR available as a camera fallback;
 - wallet keys and signed operations never enter the store frontend or backend.
 
-The circular mark is Payrail branding around a standard QR. It is not an Apple App Clip code or an EMV-certified QR profile.
+The circular Payrail Code is a deterministic visual payment token for the Payrail experience. Until the Payrail wallet ships its dedicated radial decoder, customers should tap the payment link or expand the standard camera QR fallback. It is not an Apple App Clip code or an EMV-certified QR profile.
 
 ## Run locally
 

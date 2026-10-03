@@ -114,73 +114,61 @@
     0.62rem ui-monospace,
     monospace;
 }
-.scan-mark {
-  position: relative;
-  width: min(370px, 36vw);
-  aspect-ratio: 1;
+.payment-code {
+  width: min(390px, 37vw);
   display: grid;
-  place-items: center;
+  justify-items: center;
+  gap: 0.9rem;
 }
-.scan-halo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg);
-}
-.scan-halo circle {
-  fill: none;
-  stroke-linecap: round;
-}
-.halo-track {
-  stroke: #07110d1f;
-  stroke-width: 5;
-}
-.halo-one {
-  stroke: #07110d;
-  stroke-width: 10;
-  stroke-dasharray: 42 16 17 13 68 18 25 16;
-}
-.halo-two {
-  stroke: #07110d99;
-  stroke-width: 7;
-  stroke-dasharray: 26 13 45 20 12 18;
-}
-.halo-three {
-  stroke: #07110d66;
-  stroke-width: 6;
-  stroke-dasharray: 14 10 35 12 19 16 48 14;
-}
-.scan-qr {
+.radial-code {
   position: relative;
-  z-index: 1;
-  width: 58%;
+  width: 100%;
   aspect-ratio: 1;
-  padding: 5px;
-  background: #fff;
-  box-shadow: 0 10px 35px #102d1d30;
+  overflow: hidden;
+  border-radius: 23%;
+  background: #111713;
+  box-shadow: 0 24px 55px #102d1d4d;
 }
-.scan-qr canvas {
+.radial-code canvas {
   display: block;
   width: 100%;
   height: 100%;
-  image-rendering: pixelated;
 }
-.scan-center {
+.radial-code-label {
   position: absolute;
-  inset: 50% auto auto 50%;
-  width: 24px;
-  height: 24px;
-  display: grid;
-  place-items: center;
-  transform: translate(-50%, -50%);
-  border: 4px solid #fff;
-  border-radius: 50%;
-  color: #fff;
-  background: #07110d;
+  right: 0;
+  bottom: 4.5%;
+  left: 0;
+  color: #f6fff8;
   font:
-    700 0.53rem ui-monospace,
+    700 0.72rem ui-monospace,
     monospace;
+  letter-spacing: 0.28em;
+  text-align: center;
+}
+.qr-fallback {
+  width: 100%;
+  color: #214532;
+  text-align: center;
+}
+.qr-fallback summary {
+  cursor: pointer;
+  font:
+    650 0.63rem ui-monospace,
+    monospace;
+  letter-spacing: 0.04em;
+}
+.standard-qr {
+  width: 190px;
+  margin: 0.8rem auto 0;
+  padding: 8px;
+  background: #fff;
+}
+.standard-qr canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
 }
 .success-mark {
   width: min(290px, 32vw);
@@ -203,7 +191,7 @@
     min-height: 430px;
     grid-row: 1;
   }
-  .scan-mark {
+  .payment-code {
     width: min(340px, 82vw);
   }
   .success-mark {

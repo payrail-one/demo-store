@@ -336,7 +336,7 @@ function paymentModal(
       </button>
       <div class="payment-copy">
         <p class="eyebrow">
-          ${finalized ? 'Payment complete' : 'Payrail Scan · DEVNET'}
+          ${finalized ? 'Payment complete' : 'Payrail Code · DEVNET'}
         </p>
         <h2 id="payment-title">
           ${finalized ? 'Receipt finalized.' : 'Scan. Review. Pay.'}
@@ -401,11 +401,11 @@ function paymentModal(
       </div>
       <div class="scan-panel">
         ${finalized ? successMark() : payrailScan(order.paymentUrl)}
-        <strong>${finalized ? 'FINALIZED' : 'PAYRAIL SCAN'}</strong>
+        <strong>${finalized ? 'FINALIZED' : 'PAYRAIL CODE'}</strong>
         <small
           >${finalized
             ? `Block #${checkout.transaction?.blockHeight ?? '—'}`
-            : 'Standard QR · high error correction'}</small
+            : 'Tap to pay · camera QR available'}</small
         >
       </div>
     </section>
